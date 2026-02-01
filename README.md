@@ -1,53 +1,159 @@
-# Smart-Shuffle Music Streaming Engine
+# DSA Solutions
 
-A sophisticated playlist sequencer designed for music streaming services. It features "Smart Shuffle" intelligence that prevents artist repetition and supports priority "Queue Next" requests.
+**Three Python implementations of data structure problems**
 
-## Key Features
+---
 
-- **Circular Playlist**: The playlist wraps around indefinitely from end to start.
-- **Smart Spacing Rule**: Prevents songs from the same artist from playing too close together (controlled by a restriction factor `K`).
-- **Priority Queueing**: Users can force a song to play next, bypassing the smart spacing algorithm.
-- **True Undo (History)**: Supports navigating back through the actual play history, even if the shuffle order or queue changed.
+## Problems Included
 
-## Data Structures Used
+### 1. Problem 23: Tiered Service Desk
+**File:** `problem_23_service_desk.py`
 
-| Structure | Purpose |
-| :--- | :--- |
-| **Circular Doubly Linked List** | Main playlist backbone for seamless forward/backward traversal and wrap-around. |
-| **Hash Map + Frequency Array** | Tracks artist "Cooldowns" efficiently in O(1). |
-| **Deque (Sliding Window)** | Tracks the sequence of the last `K` artists to manage the cooldown window. |
-| **Stack** | Stores the history of actually played Track IDs for reliable `PREV` functionality. |
+A customer support system using **Weighted Round Robin (WRR)** scheduling with three priority tiers.
 
-## How to Run
+**Data Structure:** Array of 3 queues (Platinum, Gold, Silver)  
+**Algorithm:** WRR (3:2:1 ratio), FIFO within each tier
 
-Ensure you have Python 3 installed. Run the following command in your terminal:
+**Commands:**
+- `ARRIVE <name> <tier>` - Add customer to queue
+- `PROCESS_NEXT` - Serve next customer using WRR
+- `STATUS` - Show all queues
+- `QUIT` - Exit
+
+---
+
+### 2. Problem 24: Deadline-Aware Task Executor
+**File:** `problem_24_task_executor.py`
+
+A task scheduling system using **Earliest Deadline First (EDF)** algorithm.
+
+**Data Structure:** Min-Heap (priority queue by deadline)  
+**Algorithm:** EDF with expiration detection
+
+**Commands:**
+- `ADD_TASK <id> <duration> <deadline> <value>` - Add task
+- `TICK` - Advance time by 1 unit
+- `RUN_ALL` - Simulate until completion
+- `REPORT` - Show final report
+- `QUIT` - Exit
+
+---
+
+### 3. Problem 55: Bounded History Manager
+**File:** `problem_55_history_manager.py`
+
+A memory-efficient undo system using a **Deque** with fixed capacity.
+
+**Data Structure:** Double-ended queue (deque) with maxlen  
+**Algorithm:** FIFO eviction when at capacity
+
+**Commands:**
+- `SET_LIMIT <n>` - Set max capacity
+- `ACTION <name>` - Add action
+- `UNDO` - Undo last action
+- `SHOW_HISTORY` - Display history
+- `QUIT` - Exit
+
+---
+
+## Installation
+
+**Requirements:** Python 3.6 or higher
+
+No external packages needed - all programs use Python standard library only.
 
 ```bash
-python3 playlist_manager.py
+# Optional: Verify Python version
+python3 --version
+
+# No pip install needed - standard library only!
 ```
 
-The tool will start an interactive session with a `playlist > ` prompt.
+See `requirements.txt` for details.
 
-## CLI Commands
+---
 
-| Command | Description |
-| :--- | :--- |
-| `ADD_SONG <id> <artist> <title>` | Appends a new song to the playlist. |
-| `PLAY` | Plays the current song, updates history and cooldowns. |
-| `NEXT` | Moves to the next valid song (skips restricted artists). |
-| `PREV` | Returns to the previous song from the actual play history. |
-| `ADD_NEXT <id>` | Injects an existing song into the "Priority Next" slot. |
-| `SET_RESTRICTION_K <k>` | Sets the spacing restriction. |
-| `HELP` | Displays a list of available commands. |
-| `EXIT` | Closes the CLI tool. |
+## Running the Programs
+
+```bash
+# Problem 23: Service Desk
+python3 problem_23_service_desk.py
+
+# Problem 24: Task Executor
+python3 problem_24_task_executor.py
+
+# Problem 55: History Manager
+python3 problem_55_history_manager.py
+```
+
+---
+
+## Requirements
+
+- **Python 3.6+**
+- **Standard Library Only** (no external packages)
+  - `collections.deque`
+  - `heapq`
+  - `dataclasses`
+
+---
 
 ## Example Usage
 
-```text
-ADD_SONG S1 Adele Hello
-ADD_SONG S2 Drake Hotline
-ADD_SONG S3 Adele Skyfall
-SET_RESTRICTION_K 2
-PLAY
-NEXT
+### Problem 23: Service Desk
 ```
+> ARRIVE Alice Platinum
+Alice added to Platinum queue
+> ARRIVE Bob Gold
+Bob added to Gold queue
+> STATUS
+=== Queue Status ===
+Platinum: ['Alice']
+Gold: ['Bob']
+Silver: [Empty]
+```
+
+### Problem 24: Task Executor
+```
+> ADD_TASK T1 3 5 100
+Task T1 added (Duration: 3, Deadline: 5, Value: 100)
+> RUN_ALL
+=== Running all tasks ===
+Time 0: Picking task with earliest deadline...
+- T1 (Deadline 5) selected. Processing (0/3).
+...
+All tasks processed.
+> REPORT
+=== REPORT ===
+Completed: T1. Total Value: 100.
+Expired: None.
+```
+
+### Problem 55: History Manager
+```
+> SET_LIMIT 3
+History limit set to 3
+> ACTION A
+Action 'A' added
+> ACTION B
+Action 'B' added
+> SHOW_HISTORY
+History (2/3):
+Hist: ['A', 'B']
+```
+
+---
+
+## Data Structures & Algorithms
+
+| Problem | Data Structure | Algorithm | Complexity |
+|---------|---------------|-----------|------------|
+| 23 | Array of Queues | Weighted Round Robin | O(1) per operation |
+| 24 | Min-Heap | Earliest Deadline First | O(log n) insert/extract |
+| 55 | Deque | FIFO with capacity limit | O(1) per operation |
+
+---
+
+## License
+
+Educational use only.
