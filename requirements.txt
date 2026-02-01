@@ -1,0 +1,8 @@
+# No external dependencies required
+# All programs use Python standard library only:
+# - collections.deque
+# - heapq
+# - dataclasses
+# - typing
+
+# Python version required: 3.6+
